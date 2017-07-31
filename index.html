@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.10.0/d3.min.js"></script>
+  <script src="https://d3js.org/d3-selection-multi.v0.4.min.js"></script>  
+  <body>
+    <div ng-app="myApp" ng-controller="myCtrl">
+      <p>Name: <input type="text" ng-model="name"></p>
+      <p ng-bind="name"></p>
+      Full Name: {{firstName + " " + lastName}}
+      <div first-directive></div>
+      <div>X-Axis</div>
+      <select ng-model="selectedTagX" ng-options="x for x in names">
+      </select>
+      <div>Y-Axis</div>
+      <select ng-model="selectedTagY" ng-options="x for x in names">
+      </select>
+
+      <button ng-click="getDataOfSelectedTags();">Get Data</button>
+      <button ng-click="plotGraphFunction();">Plot Graph</button>
+    </div>
+
+    <script src="myApp.js"></script>
+    <script src="myCtrl.js"></script>
+    <script src="myService.js"></script>
+    <script src="myDirective.js"></script>
+  </body>
+</html>
