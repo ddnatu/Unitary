@@ -42,4 +42,44 @@ app.controller('myCtrl', function($scope,MyService) {
             "fill": "blue"
         });
     }
+    
+    $scope.plotRefresh = function(){
+
+        // set the dimensions and margins of the graph
+        var margin = {top: 20, right: 20, bottom: 50, left: 70},
+        width = 960 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom
+
+
+        var scaleY = d3.scaleLinear()
+                        .domain([0,1000])
+                        .range([200,0]);
+
+        var axisVertical = d3.axisLeft(scaleY);
+        d3.select("#scatterPlotSVG").append("svg")
+            .attr("width", 5)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", "translate(0,30)")
+            .style("stroke-width","2px")
+            .style("stroke","red")
+            .call(axisVertical);
+
+
+
+        var scaleX = d3.scaleLinear()
+                        .domain([0, 1000])
+                        .range([0, 200]); 
+
+
+        var axisHorizontal = d3.axisBottom(scaleX);
+        d3.select("#scatterPlotSVG").append("svg")
+            .attr("width", width)
+            .attr("height", 30)
+            .append("g")
+            .attr("transform", "translate(0,30)")
+            .style("stroke-width","10px")
+            .style("stroke","red")
+            .call(axisHorizontal);
+    }
 });
