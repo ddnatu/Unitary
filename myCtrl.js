@@ -60,7 +60,8 @@ app.controller('myCtrl', function($scope,MyService) {
             .attr("width", 5)
             .attr("height", height)
             .append("g")
-            .attr("transform", "translate(0,30)")
+            // .attr("transform", "translate(0,30)")
+            .attr("transform", 'translate(0, 30)rotate(180)')
             .style("stroke-width","2px")
             .style("stroke","red")
             .call(axisVertical);
