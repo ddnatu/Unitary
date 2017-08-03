@@ -22,65 +22,61 @@ app.controller('myCtrl', function($scope,MyService) {
     $scope.plotGraphFunction = function(){
         var svg = d3.select("body").append("svg").attrs({width:1000, height:300});
         svg.selectAll("circle")
-        .data($scope.result.data)
-        .enter()
-        .append("circle")
-        .attrs({
-            cx: function(d) { return d.LT_2_6 * 10},
-            cy: function(d) { return d.PercentageLoad * 5},
-            r: 5,
-            "fill": "red"
-        });
+            .data($scope.result.data)
+            .enter()
+            .append("circle")
+            .attrs({
+                cx: function(d) { return d.LT_2_6 * 10},
+                cy: function(d) { return d.PercentageLoad * 5},
+                r: 5,
+                "fill": "red"
+            });
 
         svg.selectAll("text")
-        .data($scope.result.data)
-        .enter()
-        .append("text")
-        .attrs({
-            x: function(d) { return d.LT_2_6 * 4.7},
-            y: function(d) { return d.PercentageLoad * 4},
-            "fill": "blue"
-        });
+            .data($scope.result.data)
+            .enter()
+            .append("text")
+            .attrs({
+                x: function(d) { return d.LT_2_6 * 4.7},
+                y: function(d) { return d.PercentageLoad * 4},
+                "fill": "blue"
+            });
     }
     
     $scope.plotRefresh = function(){
-
-        // set the dimensions and margins of the graph
-        var margin = {top: 20, right: 20, bottom: 50, left: 70},
-        width = 960 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom
-
-
         var scaleY = d3.scaleLinear()
-                        .domain([0,1000])
-                        .range([200,0]);
-
+                        .domain([0,100])
+                        .range([0,550]);
         var axisVertical = d3.axisLeft(scaleY);
-        d3.select("#scatterPlotSVG").append("svg")
-            .attr("width", 5)
-            .attr("height", height)
+        d3.select("#scatterPlotSVG")
+            .append("svg")
             .append("g")
-            // .attr("transform", "translate(0,30)")
-            .attr("transform", 'translate(0, 30)rotate(180)')
+            .attr("transform", 'translate(0, 550)rotate(180)')
             .style("stroke-width","2px")
             .style("stroke","red")
             .call(axisVertical);
 
-
-
         var scaleX = d3.scaleLinear()
-                        .domain([0, 1000])
-                        .range([0, 200]); 
-
-
+                        .domain([0, 100])
+                        .range([0, 550]); 
         var axisHorizontal = d3.axisBottom(scaleX);
         d3.select("#scatterPlotSVG").append("svg")
-            .attr("width", width)
-            .attr("height", 30)
             .append("g")
-            .attr("transform", "translate(0,30)")
-            .style("stroke-width","10px")
+            .attr("transform", "translate(0,550)")
+            .style("stroke-width","2px")
             .style("stroke","red")
             .call(axisHorizontal);
+
+
+        var svg2 = d3.select("#scatterPlotSVG");
+        var g = svg2.append('g')
+        g.selectAll("circle")
+            .data($scope.result.data)
+            .attr("transform", 'translate(0, 550)rotate(180)')
+            .enter().append("circle")
+            .attr("r", 5)
+            .attr("cx", function(d) { return d.LT_2_6* 10; })
+            .attr("cy", function(d) { return d.PercentageLoad* 10; })
+            .attr("fill","blue");
     }
 });
