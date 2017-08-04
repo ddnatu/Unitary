@@ -5,7 +5,7 @@ app.controller('myCtrl', function($scope,MyService) {
     $scope.selectedTagX;
     $scope.result = [];
     $scope.getDataOfSelectedTags = function(){
-         console.log('reached',$scope.selectedTagX);   
+         //console.log('reached',$scope.selectedTagX );   
     }
 
     var getDataDefer = MyService.getData();
@@ -17,32 +17,18 @@ app.controller('myCtrl', function($scope,MyService) {
     });
 
 
-    
-
     $scope.plotGraphFunction = function(){
-        var svg = d3.select("body").append("svg").attrs({width:1000, height:300});
-        svg.selectAll("circle")
-            .data($scope.result.data)
-            .enter()
-            .append("circle")
-            .attrs({
-                cx: function(d) { return d.LT_2_6 * 10},
-                cy: function(d) { return d.PercentageLoad * 5},
-                r: 5,
-                "fill": "red"
-            });
 
-        svg.selectAll("text")
-            .data($scope.result.data)
-            .enter()
-            .append("text")
-            .attrs({
-                x: function(d) { return d.LT_2_6 * 4.7},
-                y: function(d) { return d.PercentageLoad * 4},
-                "fill": "blue"
-            });
+        var headers = {
+            devicetime: 'Device Time'.replace(/,/g, ''), // remove commas to avoid errors
+            LT_2_6: "LT_2_6",
+            O2A: "O2A",
+            PercentageLoad: "Percentage Load"
+        };
+
+        $scope.exportCSVFile(headers,$scope.result,'unitary');
     }
-    
+
     $scope.plotRefresh = function(){
         var scaleY = d3.scaleLinear()
                         .domain([0,100])
@@ -74,8 +60,58 @@ app.controller('myCtrl', function($scope,MyService) {
             .data($scope.result.data)
             .enter().append("circle")
             .attr("r", 2)
-            .attr("cx", function(d) { return d.LT_2_6* 5.5; })
-            .attr("cy", function(d) { return d.PercentageLoad* 5.5; }).attr("transform","translate(550,580)rotate(180)")
+            .attr("cx", function(d) { return d.LT_2_6 * 5.5; }).attr("transform","translate(-580,0)rotate(180)")
+            .attr("cy", function(d) { return d.O2A* 5.5; }).attr("transform","translate(550,580)rotate(180)")
             .attr("fill","blue");
+    }
+
+
+
+    $scope.convertToCSV= function(objArray) {
+        var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+        var str = '';
+
+        for (var i = 0; i < array.length; i++) {
+            var line = '';
+            for (var index in array[i]) {
+                if (line != '') line += ','
+
+                line += array[i][index];
+            }
+
+            str += line + '\r\n';
+        }
+        console.log('str', str);
+        return str;
+    }
+
+    $scope.exportCSVFile= function(headers, items, fileTitle) {
+        // if (headers) {
+        //     items.unshift(headers);
+        // }
+
+        // Convert Object to JSON
+        var jsonObject = JSON.stringify(items);
+
+        var csv = $scope.convertToCSV(jsonObject);
+        console.log('csv', csv);
+        var exportedFilename = fileTitle + '.csv' || 'export.csv';
+
+        var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        if (navigator.msSaveBlob) { // IE 10+
+            navigator.msSaveBlob(blob, exportedFilenmae);
+        } else {
+            var link = document.createElement("a");
+            if (link.download !== undefined) { // feature detection
+                // Browsers that support HTML5 download attribute
+                var url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", exportedFilename);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
     }
 });
