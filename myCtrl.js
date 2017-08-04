@@ -51,7 +51,7 @@ app.controller('myCtrl', function($scope,MyService) {
         d3.select("#scatterPlotSVG")
             .append("svg")
             .append("g")
-            .attr("transform", 'translate(0, 550)rotate(180)')
+            .attr("transform", 'translate(0, 580)rotate(-180)')
             .style("stroke-width","2px")
             .style("stroke","red")
             .call(axisVertical);
@@ -62,7 +62,7 @@ app.controller('myCtrl', function($scope,MyService) {
         var axisHorizontal = d3.axisBottom(scaleX);
         d3.select("#scatterPlotSVG").append("svg")
             .append("g")
-            .attr("transform", "translate(0,550)")
+            .attr("transform", "translate(0,580)")
             .style("stroke-width","2px")
             .style("stroke","red")
             .call(axisHorizontal);
@@ -72,11 +72,10 @@ app.controller('myCtrl', function($scope,MyService) {
         var g = svg2.append('g')
         g.selectAll("circle")
             .data($scope.result.data)
-            .attr("transform", 'translate(0, 550)rotate(180)')
             .enter().append("circle")
-            .attr("r", 5)
-            .attr("cx", function(d) { return d.LT_2_6* 10; })
-            .attr("cy", function(d) { return d.PercentageLoad* 10; })
+            .attr("r", 2)
+            .attr("cx", function(d) { return d.LT_2_6* 5.5; })
+            .attr("cy", function(d) { return d.PercentageLoad* 5.5; }).attr("transform","translate(550,580)rotate(180)")
             .attr("fill","blue");
     }
 });
