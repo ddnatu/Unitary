@@ -28,6 +28,7 @@ myService.js
 data.json
 
 
-Because of CORS issue , Data is being fetched by data.json using a dummy service.
+Because of CORS issue , Data was being fetched by data.json using a dummy service but now it is fixed just you need to enable the CORS plugin in the chrome or you can host the service on localhost:3000 and run it from there to remove CORS error.
 
+The UI is not completed properly and also the D3.js is not perfect as i had lost the touch with it being done it a long time back.
 
