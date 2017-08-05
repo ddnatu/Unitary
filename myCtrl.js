@@ -2,20 +2,26 @@ app.controller('myCtrl', function($scope,MyService) {
     $scope.firstName= "John";
     $scope.lastName= "Doe";
     $scope.names = ["DT_5_3","PT_2_9","LT_2_6","O2A","TE_2_4","PercentageLoad"];
-    $scope.selectedTagX;
+    $scope.selectedTagX = '';
+    $scope.selectedTagY = '';
     $scope.result = [];
+    $scope.flag = false;
     $scope.getDataOfSelectedTags = function(){
-         //console.log('reached',$scope.selectedTagX );   
+        console.log($scope.selectedTagX );   
+        console.log($scope.selectedTagY);
+
+
+        var TagsArr = [$scope.selectedTagX, $scope.selectedTagY];
+        var getDataDefer = MyService.getData(TagsArr);
+        getDataDefer.then(function(data){
+            console.log('data',data);
+            $scope.result = data;
+            $scope.flag = true;
+        },function(error){
+            console.log('error',error);
+        });
+
     }
-
-    var getDataDefer = MyService.getData();
-    getDataDefer.then(function(data){
-        console.log('data',data);
-        $scope.result = data;
-    },function(error){
-        console.log('error',error);
-    });
-
 
     $scope.plotGraphFunction = function(){
 
@@ -60,8 +66,8 @@ app.controller('myCtrl', function($scope,MyService) {
             .data($scope.result.data)
             .enter().append("circle")
             .attr("r", 2)
-            .attr("cx", function(d) { return d.LT_2_6 * 5.5; }).attr("transform","translate(-580,0)rotate(180)")
-            .attr("cy", function(d) { return d.O2A* 5.5; }).attr("transform","translate(550,580)rotate(180)")
+            .attr("cx", function(d) { return d[$scope.selectedTagX] * 5.5; }).attr("transform","translate(-550,0)rotate(180)")
+            .attr("cy", function(d) { return d[$scope.selectedTagY] * 5.5; }).attr("transform","translate(550,550)rotate(180)")
             .attr("fill","blue");
     }
 
