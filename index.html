@@ -8,21 +8,30 @@
   <script src="https://d3js.org/d3-scale.v1.min.js"></script>
 
   <body>
+
+    <h2> Unitary Assignment </h2>
+
     <div ng-app="myApp" ng-controller="myCtrl">
-      <p>Name: <input type="text" ng-model="name"></p>
+
+      <!--<p>Name: <input type="text" ng-model="name"></p>
       <p ng-bind="name"></p>
       Full Name: {{firstName + " " + lastName}}
-      <div first-directive></div>
-      <div>X-Axis</div>
-      <select ng-model="selectedTagX" ng-options="x for x in names">
-      </select>
-      <div>Y-Axis</div>
-      <select ng-model="selectedTagY" ng-options="x for x in names">
-      </select>
+      <div first-directive></div>-->
+    
+      <div style="margin-bottom: 30px;">
+        <div style="display:inline-block;">X-Axis</div>
+        <select ng-model="selectedTagX" ng-options="x for x in names">
+        </select>
+        <div style="display:inline-block;">Y-Axis</div>
+        <select ng-model="selectedTagY" ng-selected="true" ng-options="x for x in names">
+        </select>
+      </div>
 
-      <button ng-click="getDataOfSelectedTags();">Get Data</button>
-      <button ng-click="plotGraphFunction();">To CSV</button>
-      <button ng-click="plotRefresh();">Plot Graph</button>
+      <button ng-click="getDataOfSelectedTags();" ng-disabled="!(selectedTagX && selectedTagY)">Get Data</button>
+      <button ng-click="plotRefresh();" ng-disabled="!flag">Plot Graph</button>
+      <button ng-click="plotGraphFunction();" ng-disabled="!flag">To CSV</button>
+
+      <h4 ng-if="(selectedTagX && selectedTagY)">Graph of {{selectedTagX }} as x Axis vs {{selectedTagY}} as Y Axis.</h4>
     </div>
 
 
@@ -49,7 +58,6 @@ function doSaveAs()
     }
 }
 </script>
-
 <button onclick="doSaveAs()">Save this document</button> -->
   </body>
-</html>
+</html
